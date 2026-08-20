@@ -132,11 +132,11 @@ const chartConfig = {
   },
   desktop: {
     label: "Desktop",
-    color: "var(--primary)",
+    color: "var(--chart-1)",
   },
   mobile: {
     label: "Mobile",
-    color: "var(--primary)",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig
 
@@ -150,9 +150,8 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile])
 
-  const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date)
-    const referenceDate = new Date("2024-06-30")
+  const filteredData = React.useMemo(() => {
+    const referenceDate = new Date("2024-06-30T00:00:00")
     let daysToSubtract = 90
     if (timeRange === "30d") {
       daysToSubtract = 30
@@ -161,8 +160,11 @@ export function ChartAreaInteractive() {
     }
     const startDate = new Date(referenceDate)
     startDate.setDate(startDate.getDate() - daysToSubtract)
-    return date >= startDate
-  })
+    return chartData.filter((item) => {
+      const date = new Date(`${item.date}T00:00:00`)
+      return date >= startDate
+    })
+  }, [timeRange])
 
   return (
     <Card className="@container/card">
@@ -170,15 +172,28 @@ export function ChartAreaInteractive() {
         <CardTitle>Total Visitors</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Total for the last 3 months
+            {timeRange === "90d"
+              ? "Total for the last 3 months"
+              : timeRange === "30d"
+                ? "Total for the last 30 days"
+                : "Total for the last 7 days"}
           </span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
+          <span className="@[540px]/card:hidden">
+            {timeRange === "90d"
+              ? "Last 3 months"
+              : timeRange === "30d"
+                ? "Last 30 days"
+                : "Last 7 days"}
+          </span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
-            type="single"
-            value={timeRange}
-            onValueChange={setTimeRange}
+            value={[timeRange]}
+            onValueChange={(val) => {
+              if (val.length > 0) {
+                setTimeRange(val[val.length - 1])
+              }
+            }}
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
           >
@@ -186,7 +201,14 @@ export function ChartAreaInteractive() {
             <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
             <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
           </ToggleGroup>
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select
+            value={timeRange}
+            onValueChange={(val) => {
+              if (val) {
+                setTimeRange(val)
+              }
+            }}
+          >
             <SelectTrigger
               className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
               size="sm"
@@ -213,7 +235,7 @@ export function ChartAreaInteractive() {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart accessibilityLayer data={filteredData}>
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -248,7 +270,7 @@ export function ChartAreaInteractive() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(`${value}T00:00:00`)
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -260,7 +282,7 @@ export function ChartAreaInteractive() {
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                    return new Date(`${value}T00:00:00`).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                     })
