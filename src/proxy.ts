@@ -2,18 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export function proxy(request: NextRequest) {
-  const sessionCookie = getSessionCookie(request);
   const { pathname } = request.nextUrl;
+  const sessionCookie = getSessionCookie(request);
 
+  // Protected route check: redirect unauthenticated users to sign-in
   if (pathname.startsWith("/dashboard")) {
     if (!sessionCookie) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
-    }
-  }
-
-  if (pathname === "/sign-in" || pathname === "/signup") {
-    if (sessionCookie) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
 
@@ -21,5 +16,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/sign-in", "/signup"],
+  matcher: ["/dashboard/:path*"],
 };

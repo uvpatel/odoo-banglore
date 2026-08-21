@@ -17,12 +17,10 @@ export default async function DashboardLayout({
     redirect("/sign-in");
   }
 
-  return <section>
+  return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-    {children}
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
-    </section>;
+  );
 }

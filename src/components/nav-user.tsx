@@ -33,6 +33,7 @@ import {
   Loader2Icon,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 function getInitials(name?: string | null, email?: string | null): string {
   if (name && name.trim()) {
@@ -77,14 +78,14 @@ export function NavUser({
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
-            router.push("/sign-in");
+            router.replace("/sign-in");
             router.refresh();
           },
         },
       });
     } catch (error) {
       console.error("Sign out error:", error);
-      router.push("/sign-in");
+      router.replace("/sign-in");
       router.refresh();
     } finally {
       setIsLoggingOut(false);
@@ -149,11 +150,11 @@ export function NavUser({
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon />
-                Billing
+                <Link href="/billing">Billing</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
-                Notifications
+                <Link href="/notifications">Notifications</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

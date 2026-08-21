@@ -35,7 +35,7 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton render={<a href={item.url} />}>
+            <SidebarMenuButton >
               {item.icon}
             <Link href={item.name.toLowerCase().replaceAll(" ","-").replace(/[^a-z]/g, '')}> <span> {item.name}</span></Link>
             </SidebarMenuButton>

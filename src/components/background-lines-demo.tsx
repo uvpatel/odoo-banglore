@@ -1,7 +1,6 @@
 import React from "react";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import HoverBorderGradientDemo from "./hover-border-gradient-demo";
-import { ModeToggle } from "./modetoggle";
 
 export default function BackgroundLinesDemo() {
   return (

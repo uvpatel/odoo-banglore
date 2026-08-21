@@ -142,13 +142,8 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = React.useState("90d")
-
-  React.useEffect(() => {
-    if (isMobile) {
-      setTimeRange("7d")
-    }
-  }, [isMobile])
+  const [selectedTimeRange, setSelectedTimeRange] = React.useState<string | null>(null)
+  const timeRange = selectedTimeRange ?? (isMobile ? "7d" : "90d")
 
   const filteredData = React.useMemo(() => {
     const referenceDate = new Date("2024-06-30T00:00:00")
@@ -191,7 +186,7 @@ export function ChartAreaInteractive() {
             value={[timeRange]}
             onValueChange={(val) => {
               if (val.length > 0) {
-                setTimeRange(val[val.length - 1])
+                setSelectedTimeRange(val[val.length - 1])
               }
             }}
             variant="outline"
@@ -205,7 +200,7 @@ export function ChartAreaInteractive() {
             value={timeRange}
             onValueChange={(val) => {
               if (val) {
-                setTimeRange(val)
+                setSelectedTimeRange(val)
               }
             }}
           >
