@@ -12,7 +12,7 @@ export default function HoverBorderGradientDemo() {
         className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
       >
         <AceternityLogo />
-        <span> <Link href="/dashboard" >Acertinity </Link></span>
+        <span> <Link href="/dashboard" >Dashboard</Link></span>
       </HoverBorderGradient>
     </div>
   );

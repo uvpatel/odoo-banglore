@@ -47,15 +47,15 @@ export function NavMain({
               render={<SidebarMenuButton tooltip={item.title} />}
             >
               {item.icon}
-            <Link href={item.title.toLowerCase()}> <span>{item.title}</span></Link>  
+          <span>  <Link href={item.title.toLowerCase()}> {item.title}</Link>  </span>
               <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
                 {item.items?.map((subItem) => (
                   <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton render={<a href={subItem.url} />}>
-                     <Link href={subItem.url}> <span>{subItem.title} </span></Link>
+                    <SidebarMenuSubButton>
+                   <span>  <Link href={subItem.url}> {subItem.title} </Link></span>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 ))}

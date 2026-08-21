@@ -1,3 +1,5 @@
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,5 +17,12 @@ export default async function DashboardLayout({
     redirect("/sign-in");
   }
 
-  return <section>{children}</section>;
+  return <section>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+    {children}
+      </SidebarInset>
+    </SidebarProvider>
+    </section>;
 }
