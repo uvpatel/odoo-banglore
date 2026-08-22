@@ -5,17 +5,22 @@ import Link from "next/link"
 
 export default function HoverBorderGradientDemo() {
   return (
-    <div className="mt-2 flex justify-center text-center">
-      <Link href="/dashboard" className="inline-block">
+    <div className="mt-2 flex justify-center text-center z-20">
+      
         <HoverBorderGradient
           containerClassName="rounded-full"
           as="div"
           className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 cursor-pointer"
         >
+        
+           <span>
+              <Link href="/dashboard" >Dashboard</Link>
+            </span>
+          
           <AceternityLogo />
-          <span>Dashboard</span>
+         
         </HoverBorderGradient>
-      </Link>
+      
     </div>
   );
 }
