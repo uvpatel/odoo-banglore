@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { ModeToggle } from "./modetoggle";
 
 function getInitials(name?: string | null, email?: string | null): string {
   if (name && name.trim()) {
@@ -143,6 +144,13 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <ModeToggle />
+                Theme
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheckIcon />
@@ -153,6 +161,8 @@ export function NavUser({
                 <Link href="/billing">Billing</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
+                
+
                 <BellIcon />
                 <Link href="/notifications">Notifications</Link>
               </DropdownMenuItem>
